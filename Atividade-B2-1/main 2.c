@@ -21,20 +21,23 @@ int esta_cheia(Pilha *p) {
     return p->topo == TAMANHO_PILHA - 1;
 }
 
-void empilhar(Pilha *p, double valor) {
+void push(Pilha *p, double valor) {
     if (esta_cheia(p)) {
-        printf("Erro: Pilha cheia!\n");
+        printf("Pilha cheia!\n");
         exit(EXIT_FAILURE);
     }
-    p->itens[++(p->topo)] = valor;
+    p->topo++;
+    p->itens[p->topo] = valor;
 }
 
-double desempilhar(Pilha *p) {
+double pop(Pilha *p) {
     if (esta_vazia(p)) {
         printf("Erro: Pilha vazia!\n");
         exit(EXIT_FAILURE);
     }
-    return p->itens[(p->topo)--];
+    double valor = p->itens[p->topo];
+    p->topo--;
+    return valor;
 }
 
 double calcular(double op1, double op2, char operador) {
@@ -70,11 +73,11 @@ int main() {
         if (isdigit(entrada) || (entrada == '-' && isdigit(getchar()))) {
             ungetc(entrada, stdin);
             scanf("%lf", &operando);
-            empilhar(&pilha, operando);
+            push(&pilha, operando);
         } else if (entrada == '+' || entrada == '-' || entrada == '*' || entrada == '/') {
-            double op2 = desempilhar(&pilha);
-            double op1 = desempilhar(&pilha);
-            empilhar(&pilha, calcular(op1, op2, entrada));
+            double op2 = pop(&pilha);
+            double op1 = pop(&pilha);
+            push(&pilha, calcular(op1, op2, entrada));
         } else {
             printf("Entrada inválida!\n");
             exit(EXIT_FAILURE);
@@ -82,10 +85,10 @@ int main() {
     }
 
     if (!esta_vazia(&pilha)) {
-        double resultado = desempilhar(&pilha);
+        double resultado = pop(&pilha);
         printf("Resultado: %.2f\n", resultado);
     } else {
-        printf("Não há resultado\n");
+        printf("Não tem resultado\n");
     }
 
     return 0;
