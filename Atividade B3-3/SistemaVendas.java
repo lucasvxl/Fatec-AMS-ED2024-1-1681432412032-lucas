@@ -15,10 +15,11 @@ public class SistemaVendas {
     public Map<Produto, Integer> totalVendasPorProduto() {
         Map<Produto, Integer> totalVendasPorProduto = new HashMap<>();
         for (Venda venda : listaVendas) {
-            Produto produto = venda.getProduto();
-            int quantidade = venda.getQuantidade();
-            totalVendasPorProduto.put(produto, totalVendasPorProduto.getOrDefault(produto, 0) + quantidade);
+            Produto produto = venda.getProduto(); // t
+            int quantidade = venda.getQuantidade(); // t
+            totalVendasPorProduto.put(produto, totalVendasPorProduto.getOrDefault(produto, 0) + quantidade); // 2t
         }
+
         return totalVendasPorProduto;
     }
 
@@ -27,9 +28,9 @@ public class SistemaVendas {
         double total = 0;
         int index = 0;
         while (index < listaVendas.size()) {
-            Venda venda = listaVendas.get(index);
-            total += venda.getValorTotal();
-            index++;
+            Venda venda = listaVendas.get(index); // t
+            total += venda.getValorTotal(); // t
+            index++; // t
         }
         return total;
     }
@@ -38,9 +39,10 @@ public class SistemaVendas {
     public Map<Cliente, Integer> clientesFrequentes() {
         Map<Cliente, Integer> clientesFrequentes = new HashMap<>();
         for (Venda venda : listaVendas) {
-            Cliente cliente = venda.getCliente();
-            clientesFrequentes.put(cliente, clientesFrequentes.getOrDefault(cliente, 0) + venda.getQuantidade());
+            Cliente cliente = venda.getCliente(); // t
+            clientesFrequentes.put(cliente, clientesFrequentes.getOrDefault(cliente, 0) + venda.getQuantidade()); // 3t
         }
+
         return clientesFrequentes;
     }
 
@@ -48,8 +50,9 @@ public class SistemaVendas {
     public double compararVendas(int inicio, int fim) {
         double total = 0;
         for (int i = inicio; i <= fim; i++) {
-            total += listaVendas.get(i).getValorTotal();
-        }
+            total += listaVendas.get(i).getValorTotal(); // t
+    }
+
         return total;
     }
 
